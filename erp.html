@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Connect - ERP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1A2533, #2A3444);
+            min-height: 100vh;
+            overflow-y: auto;
+            color: #E0E7FF;
+        }
+        .cube {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #FF6F61, #FF897A);
+            opacity: 0.4;
+            animation: floatCube 12s infinite ease-in-out;
+            z-index: 0;
+        }
+        .header {
+            background: rgba(26, 37, 51, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(255, 111, 97, 0.2);
+            z-index: 10;
+            position: sticky;
+            top: 0;
+        }
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #FF6F61;
+            font-size: 1.8em;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-item {
+            color: #FF897A;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .nav-item:hover {
+            color: #FF6F61;
+            transform: translateY(-2px);
+        }
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        .notification-icon::after {
+            content: attr(data-count);
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #FF4D4D;
+            color: #FFF;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8em;
+        }
+        .notification-icon.active::after {
+            display: block;
+        }
+        .notification-slider {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: rgba(42, 52, 68, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: -4px 0 20px rgba(255, 111, 97, 0.2);
+            z-index: 20;
+            transition: right 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .notification-slider.active {
+            right: 0;
+        }
+        .notification-slider h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #FF6F61;
+            margin-bottom: 20px;
+        }
+        .notification-item {
+            background: rgba(58, 68, 84, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #E0E7FF;
+        }
+        .notification-item span {
+            font-weight: 600;
+            color: #FF897A;
+        }
+        .main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .section {
+            background: rgba(42, 52, 68, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #FF6F61;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #E0E7FF;
+            font-size: 1em;
+            margin: 8px 0;
+        }
+        input::placeholder {
+            color: #FF897A;
+        }
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #FF6F61, #FF897A);
+            color: #1A2533;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.5);
+        }
+        .delete-btn {
+            background: linear-gradient(45deg, #FF4D4D, #E04343);
+            color: #FFF;
+        }
+        .erp-list {
+            margin: 10px 0;
+        }
+        .erp-item {
+            padding: 12px;
+            background: rgba(58, 68, 84, 0.9);
+            margin: 8px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes floatCube {
+            0% { transform: translateY(100vh) rotate(0deg); }
+ encour            50% { transform: translateY(50vh) rotate(180deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>College Connect - ERP</h1>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="window.location.href='index.html'">Home</div>
+            <div class="nav-item" onclick="window.location.href='index.html#aiSection'">AI</div>
+            <div class="nav-item" onclick="window.location.href='index.html#taskSection'">Task</div>
+            <div class="nav-item" onclick="window.location.href='index.html'; showProfilePage()">Profile</div>
+            <div class="nav-item notification-icon" id="notificationIcon" onclick="toggleNotificationSlider()" data-count="0">Notifications</div>
+            <div class="nav-item" onclick="logout()">Logout</div>
+        </div>
+    </div>
+    <div class="notification-slider" id="notificationSlider">
+        <h3>Notifications</h3>
+        <div id="notificationList"></div>
+    </div>
+    <div class="main">
+        <div class="section" id="studentSection" style="display: none;">
+            <h3>Student Management</h3>
+            <div class="erp-input">
+                <input type="text" id="studentName" placeholder="Student Name">
+                <input type="text" id="studentId" placeholder="Student ID (e.g., S001)">
+                <input type="number" id="attendance" placeholder="Attendance %">
+                <button onclick="addStudent()">Add Student</button>
+            </div>
+            <div class="erp-list" id="studentList"></div>
+        </div>
+        <div class="section" id="feeSection" style="display: none;">
+            <h3>Fee Management</h3>
+            <div class="erp-input">
+                <input type="text" id="feeStudentId" placeholder="Student ID">
+                <input type="number" id="feeAmount" placeholder="Amount">
+                <input type="date" id="feeDate">
+                <button onclick="addFee()">Add Fee</button>
+            </div>
+            <div class="erp-list" id="feeList"></div>
+        </div>
+        <div class="section" id="examSection" style="display: none;">
+            <h3>Examination System</h3>
+            <div class="erp-input">
+                <input type="text" id="examStudentId" placeholder="Student ID">
+                <input type="text" id="examSubject" placeholder="Subject">
+                <input type="number" id="examGrade" placeholder="Grade">
+                <button onclick="addExamResult()">Add Result</button>
+            </div>
+            <div class="erp-list" id="examList"></div>
+        </div>
+        <div class="section" id="librarySection" style="display: none;">
+            <h3>Library Management</h3>
+            <div class="erp-input">
+                <input type="text" id="bookTitle" placeholder="Book Title">
+                <input type="text" id="bookId" placeholder="Book ID (e.g., B001)">
+                <input type="text" id="bookStudentId" placeholder="Student ID">
+                <button onclick="addBook()">Add Book</button>
+            </div>
+            <div class="erp-list" id="bookList"></div>
+        </div>
+        <div class="section" id="attendanceSection" style="display: none;">
+            <h3>Attendance System</h3>
+            <div class="erp-input">
+                <input type="text" id="attendanceGroup" placeholder="Group Name">
+                <input type="date" id="attendanceDate">
+                <button onclick="generateAttendanceCode()">Generate Code</button>
+            </div>
+            <p id="attendanceCode">Code: None</p>
+            <div class="erp-input">
+                <input type="text" id="verifyStudentId" placeholder="Student ID">
+                <input type="text" id="verifyCode" placeholder="Verification Code">
+                <button onclick="verifyAttendance()">Verify</button>
+            </div>
+            <div class="erp-list" id="attendanceList"></div>
+        </div>
+    </div>
+    <div class="cube" style="left: 15%; top: 20%; animation-delay: 0s;"></div>
+    <div class="cube" style="left: 35%; top: 60%; animation-delay: 2s;"></div>
+    <div class="cube" style="left: 55%; top: 40%; animation-delay: 4s;"></div>
+    <div class="cube" style="left: 75%; top: 80%; animation-delay: 1s;"></div>
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const feature = urlParams.get('feature');
+            if (feature) {
+                document.getElementById(`${feature}Section`).style.display = 'block';
+                displayStudents();
+                displayFees();
+                displayExams();
+                displayLibrary();
+                displayAttendance();
+                displayNotifications();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'934f52df4c0e674f',t:'MTc0NTQzMTg4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'935066fed9a0df6e',t:'MTc0NTQ0MzIwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
