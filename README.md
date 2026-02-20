@@ -18,7 +18,7 @@ It allows users to manage student details and monitor attendance records through
 
 - HTML
 - CSS
-- MySQL (if used)
+- MySQL
 - Basic backend concepts
 
 ## 👩‍💻 My Contribution
